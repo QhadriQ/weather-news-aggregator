@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather News App</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;color:#fff}
+        .app{max-width:400px;margin:0 auto;min-height:100vh}
+        .header{background:rgba(255,255,255,0.1);padding:20px;text-align:center;display:flex;justify-content:space-between;align-items:center}
+        .card{background:rgba(255,255,255,0.1);margin:15px;padding:20px;border-radius:15px;backdrop-filter:blur(10px)}
+        .temp{font-size:48px;font-weight:300;margin:15px 0}
+        .details{display:flex;justify-content:space-around;margin-top:15px}
+        .detail{text-align:center}
+        .forecast{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.2)}
+        .news{margin-bottom:10px}
+        .tab-bar{display:flex;background:rgba(255,255,255,0.1);position:fixed;bottom:0;width:100%;max-width:400px}
+        .tab{flex:1;padding:15px;text-align:center;cursor:pointer;opacity:0.7}
+        .tab.active{opacity:1;color:#4A90E2;font-weight:bold}
+        .hidden{display:none}
+        input{width:100%;padding:10px;margin-bottom:10px;border:1px solid rgba(255,255,255,0.3);border-radius:8px;background:rgba(255,255,255,0.1);color:#fff;text-align:center}
+        button{padding:8px 16px;margin-bottom:10px;border:none;border-radius:8px;background:#4A90E2;color:#fff;cursor:pointer}
+        .btn-group{display:flex;gap:10px}
+        .btn{flex:1;padding:10px;border:1px solid rgba(255,255,255,0.2);border-radius:8px;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer}
+        .btn.active{background:#4A90E2}
+        .category{padding:12px;border:1px solid rgba(255,255,255,0.2);border-radius:8px;margin:5px 0;cursor:pointer;background:rgba(255,255,255,0.1)}
+        [data-theme="dark"]{background:linear-gradient(135deg,#2c3e50,#34495e)}
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="header">
+            <h2>Weather News</h2>
+            <button onclick="toggleTheme()">🌙</button>
+        </div>
+        
+        <div id="home" class="content">
+            <div class="card">
+                <input id="city" placeholder="Enter city (Hyderabad, Mumbai, Delhi)">
+                <button onclick="search()">Search</button>
+                <div id="location">Hyderabad, IN</div>
+                <div class="temp" id="temp">28°C</div>
+                <div id="condition">hot and humid</div>
+                <div class="details">
+                    <div class="detail"><div>Humidity</div><div id="humidity">70%</div></div>
+                    <div class="detail"><div>Wind</div><div id="wind">2.5 m/s</div></div>
+                    <div class="detail"><div>Feels</div><div id="feels">32°C</div></div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>5-Day Forecast</h3>
+                <div id="forecast">
+                    <div class="forecast"><span>Today</span><span>28°</span><span>Hot</span></div>
+                    <div class="forecast"><span>Tomorrow</span><span>30°</span><span>Sunny</span></div>
+                    <div class="forecast"><span>Wed</span><span>27°</span><span>Cloudy</span></div>
+                    <div class="forecast"><span>Thu</span><span>29°</span><span>Clear</span></div>
+                    <div class="forecast"><span>Fri</span><span>31°</span><span>Sunny</span></div>
+                </div>
+            </div>
+
+            <h3 style="margin:15px">Weather News</h3>
+            <div id="news">
+                <div class="card news">
+                    <h4>Heat Wave Warning Issued</h4>
+                    <p>Dangerous temperature levels reported...</p>
+                    <small>Weather Alert • Now</small>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings" class="content hidden">
+            <div class="card">
+                <h3>Temperature Unit</h3>
+                <div class="btn-group">
+                    <div class="btn active" onclick="setUnit(this,'C')">Celsius</div>
+                    <div class="btn" onclick="setUnit(this,'F')">Fahrenheit</div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>News Categories</h3>
+                <div class="category" onclick="toggle(this)">✓ General</div>
+                <div class="category" onclick="toggle(this)">Business</div>
+                <div class="category" onclick="toggle(this)">Technology</div>
+                <div class="category" onclick="toggle(this)">✓ Sports</div>
+            </div>
+        </div>
+
+        <div class="tab-bar">
+            <div class="tab active" onclick="showTab('home',this)">Home</div>
+            <div class="tab" onclick="showTab('settings',this)">Settings</div>
+        </div>
+    </div>
+
+    <script>
+        const cities={hyderabad:{name:'Hyderabad',temp:28,feels:32,humidity:70,wind:2.5,desc:'hot and humid'},mumbai:{name:'Mumbai',temp:30,feels:35,humidity:80,wind:3.2,desc:'hot and humid'},delhi:{name:'Delhi',temp:26,feels:29,humidity:60,wind:2.8,desc:'warm and clear'},bangalore:{name:'Bangalore',temp:22,feels:24,humidity:65,wind:2.0,desc:'pleasant weather'}};
+        
+        function search(){
+            const city=document.getElementById('city').value.trim().toLowerCase();
+            const data=cities[city]||{name:city,temp:25,feels:27,humidity:65,wind:2.5,desc:'pleasant'};
+            document.getElementById('location').textContent=data.name+', IN';
+            document.getElementById('temp').textContent=data.temp+'°C';
+            document.getElementById('condition').textContent=data.desc;
+            document.getElementById('humidity').textContent=data.humidity+'%';
+            document.getElementById('wind').textContent=data.wind+' m/s';
+            document.getElementById('feels').textContent=data.feels+'°C';
+            updateForecast(data.temp);
+            updateNews(data.temp);
+        }
+        
+        function updateForecast(temp){
+            const days=['Today','Tomorrow','Wed','Thu','Fri'];
+            const conditions=['Hot','Sunny','Cloudy','Clear','Sunny'];
+            const temps=[temp,temp+2,temp-1,temp+1,temp+3];
+            document.getElementById('forecast').innerHTML=days.map((d,i)=>`<div class="forecast"><span>${d}</span><span>${Math.round(temps[i])}°</span><span>${conditions[i]}</span></div>`).join('');
+        }
+        
+        function updateNews(temp){
+            let news=temp>25?'<div class="card news"><h4>Heat Wave Warning</h4><p>Dangerous temperature levels...</p><small>Weather Alert</small></div>':temp<15?'<div class="card news"><h4>Cold Weather Advisory</h4><p>Low temperatures affecting region...</p><small>Weather News</small></div>':'<div class="card news"><h4>Perfect Weather</h4><p>Ideal conditions for outdoor activities...</p><small>Local News</small></div>';
+            document.getElementById('news').innerHTML=news;
+        }
+        
+        function showTab(tab,el){
+            document.getElementById('home').classList.toggle('hidden',tab!=='home');
+            document.getElementById('settings').classList.toggle('hidden',tab!=='settings');
+            document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+            el.classList.add('active');
+        }
+        
+        function setUnit(el,unit){
+            document.querySelectorAll('.btn').forEach(b=>b.classList.remove('active'));
+            el.classList.add('active');
+        }
+        
+        function toggle(el){
+            el.textContent=el.textContent.startsWith('✓')?el.textContent.replace('✓ ',''):'✓ '+el.textContent;
+        }
+        
+        function toggleTheme(){
+            document.body.style.background=document.body.style.background.includes('2c3e50')?'linear-gradient(135deg,#667eea,#764ba2)':'linear-gradient(135deg,#2c3e50,#34495e)';
+        }
+        
+        document.getElementById('city').addEventListener('keypress',e=>e.key==='Enter'&&search());
+        updateNews(28);
+    </script>
+</body>
+</html>
