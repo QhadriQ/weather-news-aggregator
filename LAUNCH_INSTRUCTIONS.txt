@@ -1,0 +1,23 @@
+ANDROID STUDIO LAUNCH INSTRUCTIONS
+==================================
+
+I cannot directly launch Android Studio from this environment, but here's what you need to do:
+
+STEP 1: Open Android Studio
+- Press Windows key + R
+- Type: android-studio
+- OR find "Android Studio" in Start Menu
+- OR double-click Android Studio desktop icon
+
+STEP 2: Open Project
+- In Android Studio, click "Open an existing project"
+- Navigate to: q:\java job\task1\android
+- Click OK
+
+STEP 3: Wait for Gradle Sync
+- Android Studio will sync automatically
+- Install any missing SDK components if prompted
+
+PROJECT IS READY AT: q:\java job\task1\android
+
+The Weather News Aggregator app is fully configured and ready to run in Android Studio!
