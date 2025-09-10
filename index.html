@@ -266,7 +266,11 @@
                 
                 <div class="section" id="forecast-section">
                     <div class="section-title">5-Day Forecast</div>
-                    <div class="forecast-item"><span>Loading...</span><span>--°</span><span>--</span></div>
+                    <div class="forecast-item"><span>Today</span><span>28°C</span><span>Hot</span></div>
+                    <div class="forecast-item"><span>Tomorrow</span><span>30°C</span><span>Sunny</span></div>
+                    <div class="forecast-item"><span>Wednesday</span><span>27°C</span><span>Cloudy</span></div>
+                    <div class="forecast-item"><span>Thursday</span><span>29°C</span><span>Clear</span></div>
+                    <div class="forecast-item"><span>Friday</span><span>31°C</span><span>Sunny</span></div>
                 </div>
 
                 <div class="section-title" style="margin: 15px;">Weather-Based News</div>
@@ -421,18 +425,26 @@
             };
         }
         
-        // Update mock forecast based on temperature
-        function updateMockForecast(baseTemp) {
-            const mockForecast = {
-                list: [
-                    { dt: Date.now()/1000, main: { temp: baseTemp }, weather: [{ main: 'Clear' }] },
-                    { dt: Date.now()/1000 + 86400, main: { temp: baseTemp + 2 }, weather: [{ main: 'Sunny' }] },
-                    { dt: Date.now()/1000 + 172800, main: { temp: baseTemp - 1 }, weather: [{ main: 'Cloudy' }] },
-                    { dt: Date.now()/1000 + 259200, main: { temp: baseTemp + 1 }, weather: [{ main: 'Clear' }] },
-                    { dt: Date.now()/1000 + 345600, main: { temp: baseTemp + 3 }, weather: [{ main: 'Sunny' }] }
-                ]
-            };
-            updateForecastDisplay(mockForecast);
+        // Update forecast based on current temperature
+        function updateForecast(baseTemp) {
+            const forecastContainer = document.getElementById('forecast-section');
+            const days = ['Today', 'Tomorrow', 'Wednesday', 'Thursday', 'Friday'];
+            const conditions = ['Hot', 'Sunny', 'Cloudy', 'Clear', 'Sunny'];
+            const temps = [baseTemp, baseTemp + 2, baseTemp - 1, baseTemp + 1, baseTemp + 3];
+            
+            let forecastHTML = '<div class="section-title">5-Day Forecast</div>';
+            
+            for (let i = 0; i < 5; i++) {
+                forecastHTML += `
+                    <div class="forecast-item">
+                        <span>${days[i]}</span>
+                        <span>${Math.round(temps[i])}°C</span>
+                        <span>${conditions[i]}</span>
+                    </div>
+                `;
+            }
+            
+            forecastContainer.innerHTML = forecastHTML;
         }
         
         // Fetch forecast by city name
@@ -692,6 +704,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadTheme();
             getLocationAndWeather();
+            updateForecast(28); // Initialize with Hyderabad temperature
             
             // Allow Enter key to search
             document.getElementById('city-input').addEventListener('keypress', function(e) {
