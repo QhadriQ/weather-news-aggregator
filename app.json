@@ -1,4 +1,26 @@
 {
-  "name": "WeatherNewsApp",
-  "displayName": "Weather News App"
+  "expo": {
+    "name": "Weather News App",
+    "slug": "weather-news-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+
+  }
 }
