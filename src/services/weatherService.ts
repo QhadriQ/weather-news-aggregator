@@ -1,6 +1,6 @@
 import { WeatherData, WeatherCondition } from '../types';
 
-const API_KEY = 'YOUR_OPENWEATHER_API_KEY';
+const API_KEY = 'fe6ec8914ca040f48f03e0c994c5e549';
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
 
 export const fetchWeatherData = async (lat: number, lon: number, unit: string): Promise<WeatherData> => {

@@ -1,6 +1,6 @@
 import { NewsArticle, WeatherCondition } from '../types';
 
-const API_KEY = 'YOUR_NEWS_API_KEY';
+const API_KEY = 'fe6ec8914ca040f48f03e0c994c5e549';
 const BASE_URL = 'https://newsapi.org/v2';
 
 const weatherKeywords = {
